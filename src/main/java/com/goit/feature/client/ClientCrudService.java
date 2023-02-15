@@ -37,7 +37,7 @@ public class ClientCrudService {
         Client client = session.get(Client.class, id);
 
         if (client == null) {
-            System.out.println("The client with id: " + id + " does not exists.");
+            System.out.println("The client with id: " + id + " does not exist.");
         } else {
             System.out.println(client);
         }
@@ -47,10 +47,12 @@ public class ClientCrudService {
     public Client updateClientById(long id, String newName) {
         Transaction transaction = session.beginTransaction();
             Client updateClient = getClientById(id);
-            updateClient.setName(newName);
-            session.persist(updateClient);
-        transaction.commit();
-        System.out.println("The client with id: " + id + " has been updated.");
+            if (updateClient != null) {
+                updateClient.setName(newName);
+                session.persist(updateClient);
+                transaction.commit();
+                System.out.println("The client with id: " + id + " has been updated.");
+            }
         return updateClient;
     }
 
